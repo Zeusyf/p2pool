@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020, The Monero Project
+// Copyright (c) 2014-2023, The Monero Project
 // 
 // All rights reserved.
 // 
@@ -28,18 +28,16 @@
 // 
 // Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4146 4242 4244 4668 4710 4711 5045)
-#endif
-
 #include <assert.h>
 #include <stdint.h>
 
+#include "warnings.h"
 #include "crypto-ops.h"
+
+DISABLE_VS_WARNINGS(4146 4244)
 
 /* Predeclarations */
 
-static void fe_mul(fe, const fe, const fe);
 static void fe_sq(fe, const fe);
 static void ge_madd(ge_p1p1 *, const ge_p3 *, const ge_precomp *);
 static void ge_msub(ge_p1p1 *, const ge_p3 *, const ge_precomp *);
@@ -73,7 +71,7 @@ uint64_t load_4(const unsigned char *in)
 h = 0
 */
 
-static void fe_0(fe h) {
+void fe_0(fe h) {
   h[0] = 0;
   h[1] = 0;
   h[2] = 0;
@@ -376,7 +374,7 @@ Can get away with 11 carries, but then data flow is much deeper.
 With tighter constraints on inputs can squeeze carries into int32.
 */
 
-static void fe_mul(fe h, const fe f, const fe g) {
+void fe_mul(fe h, const fe f, const fe g) {
   int32_t f0 = f[0];
   int32_t f1 = f[1];
   int32_t f2 = f[2];
